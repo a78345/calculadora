@@ -29,7 +29,9 @@ cursor:pointer;
 <tr><td><button onclick="if(window.internalNumbStorage.indexOf('.')==-1){addNum('.');}">.</button></td><td><button onclick="addNum(0);">0</button></td><td><button onclick="evalulatemath();">=</button></td><td><button onclick="if(window.currentop!=null){evalulatemath();}window.currentop='+';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;">+</button></td><td><button onclick="window.calcmem=null;statusEle.innerHTML=devdontknowhow2getentityinattrib;">MC</button></td></tr>
 </table>
 </div>
+<p><a href="https://github.com/a78345/calculadora" target="_blank">Source code link: https://github.com/a78345/calculadora</a></p>
 <script type="text/javascript">
+/*<![CDATA[*/
 var firstnumb=0;
 var internalNumbStorage="0";
 var currentop=null;
@@ -136,6 +138,7 @@ statusEle.innerHTML="&#x00A0;";
 }
 statusEle.innerHTML="&#x00A0;";
 window.onkeydown=function(e){if(e.key=="0"||e.key=="1"||e.key=="2"||e.key=="3"||e.key=="4"||e.key=="5"||e.key=="6"||e.key=="7"||e.key=="8"||e.key=="9"){e.preventDefault();addNum(Number(e.key));}else if(e.key=="."){e.preventDefault();addNum(".");}else if(e.key=="/"){e.preventDefault();if(window.currentop!=null){evalulatemath();}window.currentop='/';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;}else if(e.key=="*"){e.preventDefault();if(window.currentop!=null){evalulatemath();}window.currentop='*';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;}else if(e.key=="-"){e.preventDefault();if(window.currentop!=null){evalulatemath();}window.currentop='-';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;}else if(e.key=="+"){e.preventDefault();if(window.currentop!=null){evalulatemath();}window.currentop='+';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;}else if(e.key=="Backspace"||e.key=="<"||e.key=="ArrowLeft"){e.preventDefault();if(window.internalNumbStorage.length>1){window.internalNumbStorage=window.internalNumbStorage.substring(0,window.internalNumbStorage.length-1);display.innerHTML=window.internalNumbStorage;}else{normclear();}}else if(e.key=="a"){e.preventDefault();aclear();}else if(e.key=="c"&&!(e.ctrlKey||e.metaKey)){e.preventDefault();normclear();}else if(e.key=="r"&&window.calcmem!=null){e.preventDefault();window.internalNumbStorage=window.calcmem;display.innerHTML=window.calcmem;window.replaceable=true;}else if(e.key=="="||e.key=="Enter"){e.preventDefault();evalulatemath();}};
+/*]]>*/
 </script>
 </body>
 </html>
