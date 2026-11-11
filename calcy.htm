@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!--[if gte IE 8]><!-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<!--<![endif]-->
+<title>Calculadora</title>
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto+Sans+Mono" />
+<style type="text/css">
+button{
+font-size:2em;
+cursor:pointer;
+}
+</style>
+</head>
+<body>
+<div style="border:2px solid;font-family:'Noto Sans Mono',Consolas,'Courier New','Lucida Console',monospace;text-align:right;">
+<span id="status">Required JavaScript Support not Detected</span>
+<br />
+<span id="display">0</span>
+</div>
+<div>
+<table style="margin-left:auto;margin-right:0;">
+<tr><th><button onclick="display.innerHTML=0-Number(window.internalNumbStorage);window.internalNumbStorage=0-Number(window.internalNumbStorage);">&#x00B1;</button></th><th><button onclick="display.innerHTML=Math.sqrt(Number(window.internalNumbStorage));window.internalNumbStorage=Math.sqrt(Number(window.internalNumbStorage));">&#x221a;</button></th><th><button onclick="if(window.internalNumbStorage.length>1){window.internalNumbStorage=window.internalNumbStorage.substring(0,window.internalNumbStorage.length-1);display.innerHTML=window.internalNumbStorage;}else{normclear();}" aria-label="Backspace" title="Backspace">&lt;</button></th><th><button onclick="aclear();">AC</button></th><th></th></tr>
+<tr><td><button onclick="addNum(7);">7</button></td><td><button onclick="addNum(8);">8</button></td><td><button onclick="addNum(9);">9</button></td><td><button onclick="if(window.currentop!=null){evalulatemath();}window.currentop='/';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;">&#x00F7;</button></td><td><button onclick="memadd();">M+</button></td></tr>
+<tr><td><button onclick="addNum(4);">4</button></td><td><button onclick="addNum(5);">5</button></td><td><button onclick="addNum(6);">6</button></td><td><button onclick="if(window.currentop!=null){evalulatemath();}window.currentop='*';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;">&#x00D7;</button></td><td><button onclick="memmin();">M-</button></td></tr>
+<tr><td><button onclick="addNum(1);">1</button></td><td><button onclick="addNum(2);">2</button></td><td><button onclick="addNum(3);">3</button></td><td><button onclick="if(window.currentop!=null){evalulatemath();}window.currentop='-';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;">-</button></td><td><button onclick="if(window.calcmem!=null){window.internalNumbStorage=window.calcmem;display.innerHTML=window.calcmem;window.replaceable=true;}">MR</button></td></tr>
+<tr><td><button onclick="if(window.internalNumbStorage.indexOf('.')==-1){addNum('.');}">.</button></td><td><button onclick="addNum(0);">0</button></td><td><button onclick="evalulatemath();">=</button></td><td><button onclick="if(window.currentop!=null){evalulatemath();}window.currentop='+';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;">+</button></td><td><button onclick="window.calcmem=null;statusEle.innerHTML=devdontknowhow2getentityinattrib;">MC</button></td></tr>
+</table>
+</div>
+<script type="text/javascript">
+var firstnumb=0;
+var internalNumbStorage="0";
+var currentop=null;
+var replaceable=true;
+var calcmem=null;
+var devdontknowhow2getentityinattrib="&#x00A0;";
+var display=document.getElementById("display");
+var statusEle=document.getElementById("status")
+function normclear(){
+window.internalNumbStorage="0";
+display.innerHTML=0;
+window.replaceable=true;
+}
+function aclear(){
+normclear();
+window.currentop=null;
+}
+function addNum(a){
+if(window.internalNumbStorage=="0"||window.replaceable==true){
+if(!(a==".")){
+window.internalNumbStorage=String(a);
+display.innerHTML=a;
+window.replaceable=false;
+}else if(window.internalNumbStorage=="0"){
+window.internalNumbStorage="0.";
+display.innerHTML="0.";
+window.replaceable=false;
+}else{
+window.internalNumbStorage+=".";
+display.innerHTML+=".";
+window.replaceable=false;
+}
+}else{
+window.internalNumbStorage+=String(a);
+display.innerHTML+=String(a);
+window.replaceable=false;
+}
+}
+function add(b){
+window.internalNumbStorage=window.firstnumb+b;
+display.innerHTML=window.firstnumb+b;
+}
+function subt(b){
+window.internalNumbStorage=window.firstnumb-b;
+display.innerHTML=window.firstnumb-b;
+}
+function mult(b){
+window.internalNumbStorage=window.firstnumb*b;
+display.innerHTML=window.firstnumb*b;
+}
+function divi(b){
+window.internalNumbStorage=window.firstnumb/b;
+display.innerHTML=window.firstnumb/b;
+}
+function evalulatemath(){
+if(currentop=="+"){
+add(Number(window.internalNumbStorage));
+}else if(currentop=="-"){
+subt(Number(window.internalNumbStorage));
+}else if(currentop=="*"){
+mult(Number(window.internalNumbStorage));
+}else if(currentop=="/"){
+divi(Number(window.internalNumbStorage));
+}
+window.currentop=null;
+}
+function memadd(){
+if(window.calcmem==null){
+if(window.currentop!=null){
+evalulatemath();
+}
+window.calcmem=Number(window.internalNumbStorage);
+statusEle.innerHTML="M";
+}else{
+if(window.currentop!=null){
+evalulatemath();
+}
+if(window.calcmem!=0-Number(window.internalNumbStorage)){
+window.calcmem+=Number(window.internalNumbStorage);
+}else{
+window.calcmem=null;
+statusEle.innerHTML="&#x00A0;";
+}
+}
+}
+function memmin(){
+if(window.calcmem==null){
+if(window.currentop!=null){
+evalulatemath();
+}
+window.calcmem=0-Number(window.internalNumbStorage);
+statusEle.innerHTML="M";
+}else{
+if(window.currentop!=null){
+evalulatemath();
+}
+if(window.calcmem!=Number(window.internalNumbStorage)){
+window.calcmem-=Number(window.internalNumbStorage);
+}else{
+window.calcmem=null;
+statusEle.innerHTML="&#x00A0;";
+}
+}
+}
+statusEle.innerHTML="&#x00A0;";
+window.onkeydown=function(e){if(e.key=="0"||e.key=="1"||e.key=="2"||e.key=="3"||e.key=="4"||e.key=="5"||e.key=="6"||e.key=="7"||e.key=="8"||e.key=="9"){e.preventDefault();addNum(Number(e.key));}else if(e.key=="."){e.preventDefault();addNum(".");}else if(e.key=="/"){e.preventDefault();if(window.currentop!=null){evalulatemath();}window.currentop='/';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;}else if(e.key=="*"){e.preventDefault();if(window.currentop!=null){evalulatemath();}window.currentop='*';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;}else if(e.key=="-"){e.preventDefault();if(window.currentop!=null){evalulatemath();}window.currentop='-';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;}else if(e.key=="+"){e.preventDefault();if(window.currentop!=null){evalulatemath();}window.currentop='+';window.firstnumb=Number(window.internalNumbStorage);window.replaceable=true;}else if(e.key=="Backspace"||e.key=="<"||e.key=="ArrowLeft"){e.preventDefault();if(window.internalNumbStorage.length>1){window.internalNumbStorage=window.internalNumbStorage.substring(0,window.internalNumbStorage.length-1);display.innerHTML=window.internalNumbStorage;}else{normclear();}}else if(e.key=="a"){e.preventDefault();aclear();}else if(e.key=="c"&&!(e.ctrlKey||e.metaKey)){e.preventDefault();normclear();}else if(e.key=="r"&&window.calcmem!=null){e.preventDefault();window.internalNumbStorage=window.calcmem;display.innerHTML=window.calcmem;window.replaceable=true;}else if(e.key=="="||e.key=="Enter"){e.preventDefault();evalulatemath();}};
+</script>
+</body>
+</html>
